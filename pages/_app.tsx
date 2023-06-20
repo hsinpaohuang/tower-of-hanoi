@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { DefaultLayout } from '@/components/defaultLayout/DefaultLayout';
 
 const lightTheme = createTheme({ type: 'light' });
 
@@ -14,7 +15,9 @@ function Root({ Component, pageProps }: AppProps) {
       value={{ light: lightTheme.className, dark: darkTheme.className }}
     >
       <NextUIProvider>
-        <Component {...pageProps} />
+        <DefaultLayout>
+          <Component {...pageProps} />
+        </DefaultLayout>
       </NextUIProvider>
     </NextThemesProvider>
   );
