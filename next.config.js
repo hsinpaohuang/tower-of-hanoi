@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-}
+  // react-beautiful-dnd breaks with strict mode set to true
+  reactStrictMode: false,
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

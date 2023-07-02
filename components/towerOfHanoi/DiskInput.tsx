@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { Button, FormElement, Input, styled } from '@nextui-org/react';
 import {
   useTowerOfHanoiStore,
@@ -9,33 +9,60 @@ import {
 const StyledInput = styled(Input, { $space$1: 0, $$inputBorderRadius: 0 });
 
 export function DiskInput() {
-  const { disks, setDisks, isDisksInvalid } = useTowerOfHanoiStore();
+  const { diskCount, setDiskCount, isDiskCountInvalid, resetGame } =
+    useTowerOfHanoiStore();
 
-  const changeDisks = (e: ChangeEvent<FormElement>) => {
-    const numberValue = Number(e.target.value);
-    if (Number.isNaN(numberValue)) return;
-    setDisks(numberValue);
-  };
+  const updateDisks = useCallback(
+    (newValue: number) => {
+      if (Number.isNaN(newValue)) return;
+      setDiskCount(newValue);
+      resetGame();
+    },
+    [setDiskCount, resetGame],
+  );
 
-  const inputStatus = isDisksInvalid ? 'error' : 'default';
+  const isDecreaseDisabled = diskCount <= MIN_DISKS;
 
-  const helperText = isDisksInvalid
+  const decreaseDiskCount = useCallback(() => {
+    updateDisks(diskCount - 1);
+  }, [updateDisks, diskCount]);
+
+  const isIncreaseDisabled = diskCount >= MAX_DISKS;
+
+  const increaseDiskCount = useCallback(() => {
+    updateDisks(diskCount + 1);
+  }, [updateDisks, diskCount]);
+
+  const setDisks = useCallback(
+    (e: ChangeEvent<FormElement>) => {
+      updateDisks(Number(e.target.value));
+    },
+    [updateDisks],
+  );
+
+  const inputStatus = isDiskCountInvalid ? 'error' : 'default';
+
+  const helperText = isDiskCountInvalid
     ? `Must be between ${MIN_DISKS} and ${MAX_DISKS}`
     : '';
 
   return (
     <Button.Group>
-      <Button onPress={() => setDisks(disks - 1)}>-</Button>
+      <Button disabled={isDecreaseDisabled} onPress={decreaseDiskCount}>
+        -
+      </Button>
       <StyledInput
         labelPlaceholder="Disks"
         status={inputStatus}
         helperText={helperText}
         helperColor="error"
-        value={String(disks)}
-        onChange={changeDisks}
+        value={String(diskCount)}
+        onChange={setDisks}
         required
       />
-      <Button onPress={() => setDisks(disks + 1)}>+</Button>
+      <Button disabled={isIncreaseDisabled} onPress={increaseDiskCount}>
+        +
+      </Button>
     </Button.Group>
   );
 }

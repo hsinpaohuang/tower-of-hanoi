@@ -5,12 +5,13 @@ import { useTowerOfHanoiStore } from '@/stores/towerOfHanoiStore';
 const ControlsContainer = styled(Row, { py: '$12', gap: '$10' });
 
 export function Controls() {
-  const { moves } = useTowerOfHanoiStore();
+  const { moves, resetGame } = useTowerOfHanoiStore();
+
   return (
-    <ControlsContainer justify="center" align="center">
+    <ControlsContainer justify="center" align="center" wrap="wrap">
       <DiskInput />
       <Text>Moves: {moves}</Text>
-      <Button>Restart</Button>
+      <Button onClick={resetGame}>Restart</Button>
     </ControlsContainer>
   );
 }
