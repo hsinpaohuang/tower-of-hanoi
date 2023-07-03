@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import { Text, styled } from '@nextui-org/react';
+import { TutorialModalHandler } from '@/components/tutorialModal/tutorialModalHandler';
 import { TowerOfHanoi } from '@/components/towerOfHanoi/TowerOfHanoi';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,6 +21,7 @@ export default function Home() {
       </Head>
       <Main className={inter.className}>
         <Title h1>Tower of Hanoi</Title>
+        <TutorialModalHandler />
         <TowerOfHanoi />
       </Main>
     </>
