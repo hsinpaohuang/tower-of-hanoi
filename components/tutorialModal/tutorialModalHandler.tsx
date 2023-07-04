@@ -3,7 +3,11 @@ import dynamic from 'next/dynamic';
 import { Row, Text, styled } from '@nextui-org/react';
 import { IoHelpCircleOutline } from 'react-icons/io5';
 
-const StyledRow = styled(Row, { gap: '$3', cursor: 'pointer' });
+const StyledRow = styled(Row, {
+  gap: '$3',
+  cursor: 'pointer',
+  width: 'auto !important',
+});
 
 const StyledHelpIcon = styled(IoHelpCircleOutline, {
   height: '100%',
